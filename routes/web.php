@@ -12,9 +12,8 @@ Route::get('/', function () {
 
 // Posts routes - public routes
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
-// Posts routes - authenticated routes
+// Posts routes - authenticated routes (must be before {post} routes!)
 Route::middleware('auth')->group(function () {
     Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('posts', [PostController::class, 'store'])->name('posts.store');
@@ -22,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 });
+
+// Posts routes - public show route (must be after /create!)
+Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 // Comments routes
 Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
