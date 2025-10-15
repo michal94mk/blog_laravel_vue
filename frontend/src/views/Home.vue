@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">Welcome to Laravel Blog</h1>
-      <p class="text-lg text-gray-600">Discover amazing stories and share your thoughts with the community.</p>
+    <div class="mb-12 text-center">
+      <h1 class="text-5xl font-bold gradient-text mb-6">Welcome to Laravel Blog</h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">Discover amazing stories, share your thoughts, and connect with a vibrant community of writers and readers.</p>
     </div>
     
     <!-- Loading state -->
@@ -23,7 +23,7 @@
       <div
         v-for="post in posts"
         :key="post.id"
-        class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        class="card card-hover p-8"
       >
         <div class="flex justify-between items-start mb-4">
           <h2 class="text-2xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer">

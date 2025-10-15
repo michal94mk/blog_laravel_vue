@@ -1,10 +1,15 @@
 <template>
-  <nav class="bg-white shadow-lg">
+  <nav class="glass-effect sticky top-0 z-50 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <router-link to="/" class="flex-shrink-0 flex items-center">
-            <h1 class="text-xl font-bold text-gray-900">Laravel Blog</h1>
+          <router-link to="/" class="flex-shrink-0 flex items-center group">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <span class="text-white font-bold text-sm">LB</span>
+              </div>
+              <h1 class="text-xl font-bold gradient-text group-hover:scale-105 transition-transform duration-200">Laravel Blog</h1>
+            </div>
           </router-link>
           
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -34,7 +39,7 @@
             </span>
             <button
               @click="handleLogout"
-              class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+              class="btn-danger text-sm"
             >
               Logout
             </button>
@@ -49,7 +54,7 @@
             </router-link>
             <router-link
               to="/register"
-              class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+              class="btn-primary text-sm"
             >
               Register
             </router-link>
