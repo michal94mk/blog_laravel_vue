@@ -94,6 +94,30 @@ php artisan serve
 
 The application will be available at `http://127.0.0.1:8000`
 
+## 🚀 Vue.js Frontend Development
+
+### Setup Vue.js Frontend
+```bash
+cd frontend
+npm install
+```
+
+### Start Vue.js Development Server
+```bash
+cd frontend
+npm run dev
+```
+
+The Vue.js frontend will be available at `http://127.0.0.1:3000`
+
+### Build Vue.js for Production
+```bash
+cd frontend
+npm run build
+```
+
+This will build the Vue.js app into `public/frontend/` directory.
+
 ## 🧪 Testing
 
 ### Run all tests
@@ -194,6 +218,16 @@ blog_laravel_vue/
 │   ├── migrations/            # Database migrations
 │   ├── seeders/              # Database seeders
 │   └── factories/            # Model factories
+├── frontend/                  # Vue.js SPA
+│   ├── src/
+│   │   ├── components/        # Vue components
+│   │   ├── views/            # Page components
+│   │   ├── stores/           # Pinia stores
+│   │   ├── router/           # Vue Router
+│   │   ├── services/         # API services
+│   │   └── assets/           # Static assets
+│   ├── package.json          # Frontend dependencies
+│   └── vite.config.js        # Vite configuration
 ├── routes/
 │   ├── web.php               # Web routes
 │   └── api.php               # API routes
@@ -227,7 +261,15 @@ blog_laravel_vue/
 
 ## 🎨 Frontend
 
-### Blade Templates
+### Vue.js SPA (Single Page Application)
+- **Vue 3** with Composition API
+- **Vue Router** for client-side navigation
+- **Pinia** for state management
+- **Axios** for API communication
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+
+### Blade Templates (Legacy)
 - Responsive design with Tailwind CSS
 - Modern, clean interface
 - Mobile-friendly layout
@@ -319,7 +361,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎯 Future Enhancements
 
-- [ ] Vue.js frontend integration
+- [x] Vue.js frontend integration
 - [ ] Docker containerization
 - [ ] Role-based access control (admin panel)
 - [ ] File upload for post images
