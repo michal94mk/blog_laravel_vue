@@ -35,9 +35,9 @@ class CommentPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Comment $comment): bool
+    public function update(?User $user, Comment $comment): bool
     {
-        return $user->id === $comment->user_id; // Only comment owner can update
+        return $user !== null && $user->id === $comment->user_id; // Only comment owner can update
     }
 
     /**
@@ -60,7 +60,7 @@ class CommentPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Comment $comment): bool
+    public function restore(?User $user, Comment $comment): bool
     {
         return false;
     }
@@ -68,7 +68,7 @@ class CommentPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Comment $comment): bool
+    public function forceDelete(?User $user, Comment $comment): bool
     {
         return false;
     }

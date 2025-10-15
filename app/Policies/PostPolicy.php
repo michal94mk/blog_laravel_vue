@@ -27,31 +27,31 @@ class PostPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-        return true; // Authenticated users can create posts
+        return $user !== null; // Only authenticated users can create posts
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Post $post): bool
+    public function update(?User $user, Post $post): bool
     {
-        return $user->id === $post->user_id; // Only post owner can update
+        return $user !== null && $user->id === $post->user_id; // Only post owner can update
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Post $post): bool
+    public function delete(?User $user, Post $post): bool
     {
-        return $user->id === $post->user_id; // Only post owner can delete
+        return $user !== null && $user->id === $post->user_id; // Only post owner can delete
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Post $post): bool
+    public function restore(?User $user, Post $post): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class PostPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Post $post): bool
+    public function forceDelete(?User $user, Post $post): bool
     {
         return false;
     }
