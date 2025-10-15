@@ -4,6 +4,9 @@ import Layout from '@/components/Layout.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import PostDetail from '../views/PostDetail.vue'
+import CreatePost from '../views/CreatePost.vue'
+import EditPost from '../views/EditPost.vue'
 
 const routes = [
   {
@@ -14,6 +17,23 @@ const routes = [
         path: '',
         name: 'Home',
         component: Home
+      },
+      {
+        path: 'posts/:id',
+        name: 'PostDetail',
+        component: PostDetail
+      },
+      {
+        path: 'posts/create',
+        name: 'CreatePost',
+        component: CreatePost,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: 'posts/:id/edit',
+        name: 'EditPost',
+        component: EditPost,
+        meta: { requiresAuth: true }
       }
     ]
   },
