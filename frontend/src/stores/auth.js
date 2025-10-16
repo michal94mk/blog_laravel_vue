@@ -5,7 +5,8 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
     token: localStorage.getItem('token'),
-    isAuthenticated: false
+    isAuthenticated: false,
+    isLoading: true
   }),
 
   getters: {
@@ -87,11 +88,16 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    initializeAuth() {
+    async initializeAuth() {
+      this.isLoading = true
       if (this.token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-        this.fetchUser()
+        const result = await this.fetchUser()
+        if (!result.success) {
+          this.clearAuth()
+        }
       }
+      this.isLoading = false
     }
   }
 })

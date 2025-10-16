@@ -64,12 +64,22 @@ const router = createRouter({
 })
 
 // Navigation guards
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  // Initialize auth if token exists
-  if (authStore.token && !authStore.isAuthenticated) {
-    authStore.initializeAuth()
+  // Wait for auth initialization to complete
+  if (authStore.isLoading) {
+    // Wait for initialization to finish
+    await new Promise(resolve => {
+      const checkLoading = () => {
+        if (!authStore.isLoading) {
+          resolve()
+        } else {
+          setTimeout(checkLoading, 10)
+        }
+      }
+      checkLoading()
+    })
   }
   
   // Check if route requires authentication
