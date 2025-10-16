@@ -35,9 +35,17 @@
           </div>
         </div>
         
-        <!-- Desktop menu -->
-        <div class="hidden md:flex items-center">
-          <div v-if="isAuthenticated" class="flex items-center space-x-4">
+         <!-- Desktop menu -->
+         <div class="hidden md:flex items-center">
+           <!-- Loading state -->
+           <div v-if="authStore.isLoading" class="flex items-center space-x-4">
+             <div class="animate-pulse flex items-center space-x-2">
+               <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+               <div class="w-20 h-4 bg-gray-200 rounded"></div>
+             </div>
+           </div>
+           
+           <div v-else-if="isAuthenticated" class="flex items-center space-x-4">
             <router-link to="/profile" class="flex items-center space-x-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
               <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                 <span class="text-white font-bold text-sm">
@@ -111,8 +119,21 @@
           Create Post
         </router-link>
         
-        <!-- Guest menu -->
-        <div v-if="!isAuthenticated" class="pt-4 border-t border-gray-200">
+         <!-- Loading state for mobile -->
+         <div v-if="authStore.isLoading" class="pt-4 border-t border-gray-200">
+           <div class="px-3 py-2">
+             <div class="animate-pulse flex items-center space-x-3">
+               <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+               <div class="flex-1">
+                 <div class="w-24 h-4 bg-gray-200 rounded mb-1"></div>
+                 <div class="w-32 h-3 bg-gray-200 rounded"></div>
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <!-- Guest menu -->
+         <div v-else-if="!isAuthenticated" class="pt-4 border-t border-gray-200">
           <div class="px-3 space-y-2">
             <router-link
               to="/login"
@@ -196,6 +217,7 @@ export default {
       mobileMenuOpen,
       isAuthenticated,
       user,
+      authStore,
       handleLogout
     }
   }
