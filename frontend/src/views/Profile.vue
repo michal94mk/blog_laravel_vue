@@ -23,23 +23,50 @@
       <!-- User stats -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="text-center p-4 bg-gray-50 rounded-lg">
-          <div class="text-2xl font-bold text-indigo-600">{{ userStats.postsCount }}</div>
-          <div class="text-sm text-gray-600">Posts</div>
+          <div v-if="isLoading" class="animate-pulse">
+            <div class="h-8 bg-gray-200 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-16 mx-auto"></div>
+          </div>
+          <div v-else>
+            <div class="text-2xl font-bold text-indigo-600">{{ userStats.postsCount }}</div>
+            <div class="text-sm text-gray-600">Posts</div>
+          </div>
         </div>
         <div class="text-center p-4 bg-gray-50 rounded-lg">
-          <div class="text-2xl font-bold text-purple-600">{{ userStats.commentsCount }}</div>
-          <div class="text-sm text-gray-600">Comments</div>
+          <div v-if="isLoading" class="animate-pulse">
+            <div class="h-8 bg-gray-200 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-20 mx-auto"></div>
+          </div>
+          <div v-else>
+            <div class="text-2xl font-bold text-purple-600">{{ userStats.commentsCount }}</div>
+            <div class="text-sm text-gray-600">Comments</div>
+          </div>
         </div>
         <div class="text-center p-4 bg-gray-50 rounded-lg">
-          <div class="text-2xl font-bold text-green-600">{{ userStats.totalLikes }}</div>
-          <div class="text-sm text-gray-600">Total Likes</div>
+          <div v-if="isLoading" class="animate-pulse">
+            <div class="h-8 bg-gray-200 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-24 mx-auto"></div>
+          </div>
+          <div v-else>
+            <div class="text-2xl font-bold text-green-600">{{ userStats.totalCommentsReceived }}</div>
+            <div class="text-sm text-gray-600">Comments Received</div>
+          </div>
         </div>
       </div>
       
       <!-- Recent activity -->
       <div>
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-        <div v-if="recentPosts.length > 0" class="space-y-4">
+        <div v-if="isLoading" class="space-y-4">
+          <div v-for="n in 3" :key="n" class="p-4 border border-gray-200 rounded-lg">
+            <div class="animate-pulse">
+              <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div class="h-3 bg-gray-200 rounded w-full mb-1"></div>
+              <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else-if="recentPosts.length > 0" class="space-y-4">
           <div
             v-for="post in recentPosts"
             :key="post.id"
@@ -67,7 +94,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { usePostsStore } from '@/stores/posts'
 
@@ -82,8 +109,9 @@ export default {
     const userStats = ref({
       postsCount: 0,
       commentsCount: 0,
-      totalLikes: 0
+      totalCommentsReceived: 0
     })
+    const isLoading = ref(false)
     
     const formatDate = (dateString) => {
       if (!dateString) return 'Unknown'
@@ -95,32 +123,59 @@ export default {
     }
     
     const loadUserData = async () => {
-      // Load user's recent posts
       if (user.value?.id) {
-        // This would be a real API call to get user's posts
-        // For now, we'll simulate with existing posts
-        const result = await postsStore.fetchPosts(1)
-        if (result.success) {
-          recentPosts.value = result.data.data.slice(0, 3) // Show only 3 recent posts
-        }
-        
-        // Simulate user stats (in real app, this would come from API)
-        userStats.value = {
-          postsCount: Math.floor(Math.random() * 20) + 1,
-          commentsCount: Math.floor(Math.random() * 50) + 5,
-          totalLikes: Math.floor(Math.random() * 100) + 10
+        isLoading.value = true
+        try {
+          // Fetch real user statistics from API
+          const statsResult = await authStore.fetchUserStats()
+          if (statsResult.success) {
+            updateStats(statsResult.data)
+          } else {
+            console.error('Failed to load user stats:', statsResult.error)
+            // Fallback to empty stats
+            updateStats({
+              posts_count: 0,
+              comments_count: 0,
+              total_comments_received: 0,
+              recent_posts: []
+            })
+          }
+        } finally {
+          isLoading.value = false
         }
       }
+    }
+
+    const updateStats = (stats) => {
+      userStats.value = {
+        postsCount: stats.posts_count,
+        commentsCount: stats.comments_count,
+        totalCommentsReceived: stats.total_comments_received
+      }
+      recentPosts.value = stats.recent_posts.slice(0, 3) // Show only 3 recent posts
     }
     
     onMounted(() => {
       loadUserData()
+
+      // Listen for user stats updates
+      const handleStatsUpdate = (event) => {
+        updateStats(event.detail)
+      }
+
+      window.addEventListener('userStatsUpdated', handleStatsUpdate)
+
+      // Cleanup event listener
+      onUnmounted(() => {
+        window.removeEventListener('userStatsUpdated', handleStatsUpdate)
+      })
     })
     
     return {
       user,
       recentPosts,
       userStats,
+      isLoading,
       formatDate
     }
   }

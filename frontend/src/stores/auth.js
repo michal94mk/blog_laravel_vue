@@ -88,6 +88,32 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async fetchUserStats() {
+      try {
+        if (this.token) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+          const response = await axios.get('/api/v1/me/stats')
+          return { success: true, data: response.data.data }
+        }
+      } catch (error) {
+        return {
+          success: false,
+          error: error.response?.data?.message || 'Failed to fetch user stats'
+        }
+      }
+    },
+
+    async refreshUserStats() {
+      const result = await this.fetchUserStats()
+      if (result.success) {
+        // Emit event to notify components that stats have been updated
+        window.dispatchEvent(new CustomEvent('userStatsUpdated', {
+          detail: result.data
+        }))
+      }
+      return result
+    },
+
     async initializeAuth() {
       this.isLoading = true
       if (this.token) {

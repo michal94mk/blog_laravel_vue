@@ -11,14 +11,13 @@ Route::prefix('v1')->group(function () {
     // Auth routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    
+
     // Public posts routes
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/{post}', [PostController::class, 'show']);
-    
+
     // Public comments routes
     Route::get('/posts/{post}/comments', [CommentController::class, 'index']);
-    Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
 });
 
 // Protected routes
@@ -26,6 +25,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // Auth routes
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::get('/me/stats', [AuthController::class, 'stats']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     
     // Protected posts routes
@@ -34,6 +34,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy']);
     
     // Protected comments routes
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
     Route::get('/comments/{comment}', [CommentController::class, 'show']);
     Route::put('/comments/{comment}', [CommentController::class, 'update']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);

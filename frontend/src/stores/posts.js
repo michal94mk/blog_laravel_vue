@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useAuthStore } from './auth'
 
 export const usePostsStore = defineStore('posts', {
   state: () => ({
@@ -66,16 +67,21 @@ export const usePostsStore = defineStore('posts', {
     async createPost(postData) {
       this.loading = true
       this.error = null
-      
+
       try {
         const response = await axios.post('/api/v1/posts', postData)
         this.posts.unshift(response.data.data)
+
+        // Refresh user stats after creating post
+        const authStore = useAuthStore()
+        await authStore.refreshUserStats()
+
         return { success: true, data: response.data }
       } catch (error) {
         this.error = error.response?.data?.message || 'Failed to create post'
-        return { 
-          success: false, 
-          error: this.error 
+        return {
+          success: false,
+          error: this.error
         }
       } finally {
         this.loading = false
@@ -94,12 +100,16 @@ export const usePostsStore = defineStore('posts', {
         if (index !== -1) {
           this.posts[index] = response.data.data
         }
-        
+
         // Update current post if it's the same
         if (this.currentPost && this.currentPost.id === parseInt(id)) {
           this.currentPost = response.data.data
         }
-        
+
+        // Refresh user stats after updating post (in case title/content changed)
+        const authStore = useAuthStore()
+        await authStore.refreshUserStats()
+
         return { success: true, data: response.data }
       } catch (error) {
         this.error = error.response?.data?.message || 'Failed to update post'
@@ -115,24 +125,28 @@ export const usePostsStore = defineStore('posts', {
     async deletePost(id) {
       this.loading = true
       this.error = null
-      
+
       try {
         await axios.delete(`/api/v1/posts/${id}`)
-        
+
         // Remove post from posts array
         this.posts = this.posts.filter(post => post.id !== parseInt(id))
-        
+
         // Clear current post if it's the same
         if (this.currentPost && this.currentPost.id === parseInt(id)) {
           this.currentPost = null
         }
-        
+
+        // Refresh user stats after deleting post
+        const authStore = useAuthStore()
+        await authStore.refreshUserStats()
+
         return { success: true }
       } catch (error) {
         this.error = error.response?.data?.message || 'Failed to delete post'
-        return { 
-          success: false, 
-          error: this.error 
+        return {
+          success: false,
+          error: this.error
         }
       } finally {
         this.loading = false

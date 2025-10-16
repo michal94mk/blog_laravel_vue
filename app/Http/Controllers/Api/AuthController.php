@@ -89,6 +89,41 @@ class AuthController extends Controller
     }
 
     /**
+     * Get user statistics
+     */
+    public function stats(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        
+        $stats = [
+            'posts_count' => $user->posts()->count(),
+            'comments_count' => $user->comments()->count(),
+            'total_comments_received' => $user->posts()->withCount('comments')->get()->sum('comments_count'),
+            'recent_posts' => $user->posts()
+                ->with(['comments'])
+                ->latest()
+                ->limit(5)
+                ->get()
+                ->map(function ($post) {
+                    return [
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'content' => $post->content,
+                        'created_at' => $post->created_at,
+                        'created_at_human' => $post->created_at->diffForHumans(),
+                        'comments_count' => $post->comments->count()
+                    ];
+                })
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $stats,
+            'message' => 'User statistics retrieved successfully'
+        ]);
+    }
+
+    /**
      * Refresh token
      */
     public function refresh(Request $request): JsonResponse

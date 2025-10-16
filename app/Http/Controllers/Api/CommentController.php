@@ -37,14 +37,14 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, Post $post): JsonResponse
     {
         $commentData = $request->validated();
-        
+
         // Add user_id if authenticated, otherwise leave as null for guest
-        if (Auth::check()) {
-            $commentData['user_id'] = Auth::id();
+        if (auth()->check()) {
+            $commentData['user_id'] = auth()->id();
         }
-        
+
         $commentData['post_id'] = $post->id;
-        
+
         $comment = Comment::create($commentData);
         $comment->load('user');
 
