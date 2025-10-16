@@ -53,11 +53,17 @@
           </div>
         </div>
 
-          <div>
+          <div class="flex space-x-3">
+            <router-link
+              to="/"
+              class="btn-secondary flex-1 text-center"
+            >
+              ← Back
+            </router-link>
             <button
               type="submit"
               :disabled="loading"
-              class="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              class="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="loading" class="spinner mr-2"></span>
               {{ loading ? 'Signing in...' : 'Sign in' }}

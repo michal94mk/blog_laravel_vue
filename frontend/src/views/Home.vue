@@ -19,46 +19,58 @@
     </div>
     
     <!-- Posts list -->
-    <div v-else-if="posts.length > 0" class="space-y-6">
+    <div v-else-if="posts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div
         v-for="post in posts"
         :key="post.id"
-        class="card card-hover p-8"
+        class="card card-hover p-6 h-full flex flex-col"
       >
-        <div class="flex justify-between items-start mb-4">
-          <h2 class="text-2xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer">
+        <!-- Post header -->
+        <div class="mb-4">
+          <div class="flex items-center space-x-3 mb-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+              <span class="text-white font-bold text-sm">
+                {{ (post.user?.name || 'A').charAt(0).toUpperCase() }}
+              </span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-900">{{ post.user?.name || 'Anonymous' }}</p>
+              <p class="text-xs text-gray-500">{{ post.created_at_human }}</p>
+            </div>
+          </div>
+          
+          <h2 class="text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer mb-3 line-clamp-2">
             <router-link :to="`/posts/${post.id}`">
               {{ post.title }}
             </router-link>
           </h2>
-          <span class="text-sm text-gray-500">
-            {{ post.created_at_human }}
-          </span>
         </div>
         
-        <p class="text-gray-700 mb-4 line-clamp-3">
-          {{ post.content }}
-        </p>
+        <!-- Post content -->
+        <div class="flex-grow mb-4">
+          <p class="text-gray-700 line-clamp-4 leading-relaxed">
+            {{ post.content }}
+          </p>
+        </div>
         
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-2">
-            <span class="text-sm text-gray-500">By</span>
-            <span class="text-sm font-medium text-gray-900">
-              {{ post.user?.name || 'Anonymous' }}
-            </span>
+        <!-- Post footer -->
+        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+          <div class="flex items-center space-x-2 text-sm text-gray-500">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span>{{ post.comments_count || 0 }}</span>
           </div>
           
-          <div class="flex items-center space-x-4">
-            <span class="text-sm text-gray-500">
-              {{ post.comments_count || 0 }} comments
-            </span>
-            <router-link
-              :to="`/posts/${post.id}`"
-              class="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
-            >
-              Read more →
-            </router-link>
-          </div>
+          <router-link
+            :to="`/posts/${post.id}`"
+            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center space-x-1 group"
+          >
+            <span>Read more</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </router-link>
         </div>
       </div>
       
@@ -151,9 +163,16 @@ export default {
 </script>
 
 <style scoped>
-.line-clamp-3 {
+.line-clamp-2 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
