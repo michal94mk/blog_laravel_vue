@@ -12,7 +12,7 @@ export const usePostsStore = defineStore('posts', {
     pagination: {
       current_page: 1,
       last_page: 1,
-      per_page: 10,
+      per_page: 9,
       total: 0
     }
   }),
