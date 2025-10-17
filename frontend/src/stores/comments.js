@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './auth'
+import { useToastStore } from './toast'
 
 export const useCommentsStore = defineStore('comments', {
   state: () => ({
@@ -30,6 +31,7 @@ export const useCommentsStore = defineStore('comments', {
     },
 
     async createComment(postId, commentData) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
 
@@ -41,12 +43,15 @@ export const useCommentsStore = defineStore('comments', {
         const authStore = useAuthStore()
         await authStore.refreshUserStats()
 
+        toastStore.success('Comment Added!', 'Your comment has been posted successfully.')
         return { success: true, data: response.data }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to create comment'
+        const errorMessage = error.response?.data?.message || 'Failed to create comment'
+        this.error = errorMessage
+        toastStore.error('Failed to Add Comment', errorMessage)
         return {
           success: false,
-          error: this.error
+          error: errorMessage
         }
       } finally {
         this.loading = false
@@ -54,6 +59,7 @@ export const useCommentsStore = defineStore('comments', {
     },
 
     async updateComment(id, commentData) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
       
@@ -66,12 +72,15 @@ export const useCommentsStore = defineStore('comments', {
           this.comments[index] = response.data.data
         }
         
+        toastStore.success('Comment Updated!', 'Your comment has been updated successfully.')
         return { success: true, data: response.data }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to update comment'
+        const errorMessage = error.response?.data?.message || 'Failed to update comment'
+        this.error = errorMessage
+        toastStore.error('Failed to Update Comment', errorMessage)
         return { 
           success: false, 
-          error: this.error 
+          error: errorMessage
         }
       } finally {
         this.loading = false
@@ -79,6 +88,7 @@ export const useCommentsStore = defineStore('comments', {
     },
 
     async deleteComment(id) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
 
@@ -92,12 +102,15 @@ export const useCommentsStore = defineStore('comments', {
         const authStore = useAuthStore()
         await authStore.refreshUserStats()
 
+        toastStore.success('Comment Deleted', 'The comment has been deleted successfully.')
         return { success: true }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to delete comment'
+        const errorMessage = error.response?.data?.message || 'Failed to delete comment'
+        this.error = errorMessage
+        toastStore.error('Failed to Delete Comment', errorMessage)
         return {
           success: false,
-          error: this.error
+          error: errorMessage
         }
       } finally {
         this.loading = false

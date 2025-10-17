@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './auth'
+import { useToastStore } from './toast'
 
 export const usePostsStore = defineStore('posts', {
   state: () => ({
@@ -65,6 +66,7 @@ export const usePostsStore = defineStore('posts', {
     },
 
     async createPost(postData) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
 
@@ -76,12 +78,15 @@ export const usePostsStore = defineStore('posts', {
         const authStore = useAuthStore()
         await authStore.refreshUserStats()
 
+        toastStore.success('Post Created!', 'Your post has been published successfully.')
         return { success: true, data: response.data }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to create post'
+        const errorMessage = error.response?.data?.message || 'Failed to create post'
+        this.error = errorMessage
+        toastStore.error('Failed to Create Post', errorMessage)
         return {
           success: false,
-          error: this.error
+          error: errorMessage
         }
       } finally {
         this.loading = false
@@ -89,6 +94,7 @@ export const usePostsStore = defineStore('posts', {
     },
 
     async updatePost(id, postData) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
       
@@ -110,12 +116,15 @@ export const usePostsStore = defineStore('posts', {
         const authStore = useAuthStore()
         await authStore.refreshUserStats()
 
+        toastStore.success('Post Updated!', 'Your post has been updated successfully.')
         return { success: true, data: response.data }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to update post'
+        const errorMessage = error.response?.data?.message || 'Failed to update post'
+        this.error = errorMessage
+        toastStore.error('Failed to Update Post', errorMessage)
         return { 
           success: false, 
-          error: this.error 
+          error: errorMessage
         }
       } finally {
         this.loading = false
@@ -123,6 +132,7 @@ export const usePostsStore = defineStore('posts', {
     },
 
     async deletePost(id) {
+      const toastStore = useToastStore()
       this.loading = true
       this.error = null
 
@@ -141,12 +151,15 @@ export const usePostsStore = defineStore('posts', {
         const authStore = useAuthStore()
         await authStore.refreshUserStats()
 
+        toastStore.success('Post Deleted', 'The post has been deleted successfully.')
         return { success: true }
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to delete post'
+        const errorMessage = error.response?.data?.message || 'Failed to delete post'
+        this.error = errorMessage
+        toastStore.error('Failed to Delete Post', errorMessage)
         return {
           success: false,
-          error: this.error
+          error: errorMessage
         }
       } finally {
         this.loading = false

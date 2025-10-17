@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useToastStore } from './toast'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -31,34 +32,44 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(credentials) {
+      const toastStore = useToastStore()
       try {
         const response = await axios.post('/api/v1/login', credentials)
         const { user, token } = response.data.data
         this.setAuth(user, token)
+        toastStore.success('Welcome back!', `Hello ${user.name}, you have been successfully logged in.`)
         return { success: true, data: response.data }
       } catch (error) {
+        const errorMessage = error.response?.data?.message || 'Login failed'
+        toastStore.error('Login Failed', errorMessage)
         return { 
           success: false, 
-          error: error.response?.data?.message || 'Login failed' 
+          error: errorMessage
         }
       }
     },
 
     async register(userData) {
+      const toastStore = useToastStore()
       try {
         const response = await axios.post('/api/v1/register', userData)
         const { user, token } = response.data.data
         this.setAuth(user, token)
+        toastStore.success('Account Created!', `Welcome ${user.name}! Your account has been created successfully.`)
         return { success: true, data: response.data }
       } catch (error) {
+        const errorMessage = error.response?.data?.message || 'Registration failed'
+        toastStore.error('Registration Failed', errorMessage)
         return { 
           success: false, 
-          error: error.response?.data?.message || 'Registration failed' 
+          error: errorMessage
         }
       }
     },
 
     async logout() {
+      const toastStore = useToastStore()
+      const userName = this.user?.name || 'User'
       try {
         if (this.token) {
           await axios.post('/api/v1/logout')
@@ -67,6 +78,7 @@ export const useAuthStore = defineStore('auth', {
         console.error('Logout error:', error)
       } finally {
         this.clearAuth()
+        toastStore.info('Goodbye!', `You have been successfully logged out. See you soon, ${userName}!`)
       }
     },
 
