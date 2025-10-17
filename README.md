@@ -43,6 +43,10 @@ A full-featured blog application built with Laravel 12, featuring user authentic
 
 ## 🚀 Installation
 
+> 📘 **Need detailed setup instructions?** See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for comprehensive platform-specific guides (Windows, Linux, macOS, Docker).
+
+### Quick Start
+
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/michal94mk/blog_laravel_vue.git

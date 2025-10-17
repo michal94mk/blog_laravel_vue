@@ -19,76 +19,112 @@
     </div>
     
     <!-- Posts list -->
-    <div v-else-if="posts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div
-        v-for="post in posts"
-        :key="post.id"
-        class="card card-hover p-6 h-full flex flex-col"
-      >
-        <!-- Post header -->
-        <div class="mb-4">
-          <div class="flex items-center space-x-3 mb-3">
-            <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
-              <span class="text-white font-bold text-sm">
-                {{ (post.user?.name || 'A').charAt(0).toUpperCase() }}
-              </span>
+    <div v-else-if="posts.length > 0">
+      <!-- Posts grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+        <div
+          v-for="post in posts"
+          :key="post.id"
+          class="card card-hover p-6 h-full flex flex-col"
+        >
+          <!-- Post header -->
+          <div class="mb-4">
+            <div class="flex items-center space-x-3 mb-3">
+              <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                <span class="text-white font-bold text-sm">
+                  {{ (post.user?.name || 'A').charAt(0).toUpperCase() }}
+                </span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ post.user?.name || 'Anonymous' }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">{{ post.created_at_human }}</p>
+              </div>
             </div>
-            <div>
-              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ post.user?.name || 'Anonymous' }}</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">{{ post.created_at_human }}</p>
-            </div>
+            
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer mb-3 line-clamp-2">
+              <router-link :to="`/posts/${post.id}`">
+                {{ post.title }}
+              </router-link>
+            </h2>
           </div>
           
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer mb-3 line-clamp-2">
-            <router-link :to="`/posts/${post.id}`">
-              {{ post.title }}
+          <!-- Post content -->
+          <div class="flex-grow mb-4">
+            <p class="text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
+              {{ post.content }}
+            </p>
+          </div>
+          
+          <!-- Post footer -->
+          <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
+            <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <span>{{ post.comments_count || 0 }}</span>
+            </div>
+            
+            <router-link
+              :to="`/posts/${post.id}`"
+              class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium flex items-center space-x-1 group"
+            >
+              <span>Read more</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
             </router-link>
-          </h2>
-        </div>
-        
-        <!-- Post content -->
-        <div class="flex-grow mb-4">
-          <p class="text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
-            {{ post.content }}
-          </p>
-        </div>
-        
-        <!-- Post footer -->
-        <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-            <span>{{ post.comments_count || 0 }}</span>
           </div>
-          
-          <router-link
-            :to="`/posts/${post.id}`"
-            class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium flex items-center space-x-1 group"
-          >
-            <span>Read more</span>
-            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </router-link>
         </div>
       </div>
       
       <!-- Pagination -->
-      <div v-if="pagination.last_page > 1" class="flex justify-center mt-8">
-        <nav class="flex space-x-2">
+      <div v-if="pagination.last_page > 1" class="flex flex-col items-center space-y-4 mt-8">
+        <!-- Posts info -->
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+          Showing {{ ((pagination.current_page - 1) * pagination.per_page) + 1 }} to 
+          {{ Math.min(pagination.current_page * pagination.per_page, pagination.total) }} of 
+          {{ pagination.total }} posts
+        </div>
+        
+        <!-- Pagination controls -->
+        <nav class="flex items-center space-x-2">
+          <!-- Previous button -->
           <button
-            v-for="page in pagination.last_page"
-            :key="page"
-            @click="loadPage(page)"
-            :class="[
-              'px-3 py-2 text-sm font-medium rounded-md',
-              page === pagination.current_page
-                ? 'bg-indigo-600 text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
-            ]"
+            @click="loadPage(pagination.current_page - 1)"
+            :disabled="pagination.current_page === 1"
+            class="px-3 py-2 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {{ page }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <!-- Page numbers -->
+          <template v-for="page in getVisiblePages()" :key="page">
+            <button
+              v-if="page !== '...'"
+              @click="loadPage(page)"
+              :class="[
+                'px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                page === pagination.current_page
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
+              ]"
+            >
+              {{ page }}
+            </button>
+            <span v-else class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">...</span>
+          </template>
+          
+          <!-- Next button -->
+          <button
+            @click="loadPage(pagination.current_page + 1)"
+            :disabled="pagination.current_page === pagination.last_page"
+            class="px-3 py-2 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </nav>
       </div>
@@ -122,7 +158,7 @@ export default {
     const pagination = ref({
       current_page: 1,
       last_page: 1,
-      per_page: 10,
+      per_page: 9,
       total: 0
     })
     
@@ -147,6 +183,47 @@ export default {
       loading.value = false
     }
     
+    const getVisiblePages = () => {
+      const current = pagination.value.current_page
+      const last = pagination.value.last_page
+      const pages = []
+      
+      if (last <= 7) {
+        // Show all pages if 7 or fewer
+        for (let i = 1; i <= last; i++) {
+          pages.push(i)
+        }
+      } else {
+        // Always show first page
+        pages.push(1)
+        
+        if (current <= 4) {
+          // Show first 5 pages, then ellipsis, then last page
+          for (let i = 2; i <= 5; i++) {
+            pages.push(i)
+          }
+          pages.push('...')
+          pages.push(last)
+        } else if (current >= last - 3) {
+          // Show first page, ellipsis, then last 5 pages
+          pages.push('...')
+          for (let i = last - 4; i <= last; i++) {
+            pages.push(i)
+          }
+        } else {
+          // Show first page, ellipsis, current-1, current, current+1, ellipsis, last page
+          pages.push('...')
+          for (let i = current - 1; i <= current + 1; i++) {
+            pages.push(i)
+          }
+          pages.push('...')
+          pages.push(last)
+        }
+      }
+      
+      return pages
+    }
+    
     onMounted(() => {
       loadPage()
     })
@@ -156,7 +233,8 @@ export default {
       loading,
       error,
       pagination,
-      loadPage
+      loadPage,
+      getVisiblePages
     }
   }
 }
