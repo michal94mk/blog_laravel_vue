@@ -64,5 +64,7 @@ class RolePermissionSeeder extends Seeder
         // User gets basic permissions
         $userPermissions = Permission::whereIn('name', ['manage_posts', 'manage_comments'])->get();
         $userRole->permissions()->attach($userPermissions);
+
+        // Note: Admin role will be assigned in DatabaseSeeder after all seeders run
     }
 }

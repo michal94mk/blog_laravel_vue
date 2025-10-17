@@ -16,7 +16,21 @@
         <div>
           <h2 class="text-2xl font-bold text-gray-900">{{ user?.name }}</h2>
           <p class="text-gray-600">{{ user?.email }}</p>
-          <p class="text-sm text-gray-500">Member since {{ formatDate(user?.created_at) }}</p>
+          <div class="flex items-center gap-2 mt-1">
+            <span 
+              v-if="user?.is_admin" 
+              class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white"
+            >
+              Administrator
+            </span>
+            <span 
+              v-else 
+              class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-gray-200 text-gray-700"
+            >
+              User
+            </span>
+            <span class="text-sm text-gray-500">• Member since {{ formatDate(user?.created_at) }}</span>
+          </div>
         </div>
       </div>
       

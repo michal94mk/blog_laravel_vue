@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'role' => $this->isAdmin() ? 'admin' : 'user',
+            'is_admin' => $this->isAdmin(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

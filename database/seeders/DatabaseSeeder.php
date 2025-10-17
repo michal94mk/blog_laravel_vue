@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
         ]);
 
-        // Assign admin role to first user
+        // Assign admin role to first user (after all tables are created)
         $adminRole = \App\Models\Role::where('name', 'admin')->first();
         $firstUser = \App\Models\User::first();
         if ($adminRole && $firstUser) {
