@@ -1,5 +1,5 @@
 <template>
-  <nav class="glass-effect sticky top-0 z-50 shadow-lg">
+  <nav class="glass-effect sticky top-0 z-50 shadow-lg bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
@@ -18,8 +18,8 @@
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
             <router-link
               to="/"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              active-class="border-indigo-500 text-gray-900"
+              class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              active-class="border-indigo-500 text-gray-900 dark:text-white"
             >
               Home
             </router-link>
@@ -27,8 +27,8 @@
             <router-link
               v-if="isAuthenticated"
               to="/posts/create"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              active-class="border-indigo-500 text-gray-900"
+              class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              active-class="border-indigo-500 text-gray-900 dark:text-white"
             >
               Create Post
             </router-link>
@@ -37,24 +37,29 @@
         
          <!-- Desktop menu -->
          <div class="hidden md:flex items-center">
+           <!-- Dark mode toggle -->
+           <div class="mr-4">
+             <DarkModeToggle />
+           </div>
+           
            <!-- Loading state -->
            <div v-if="authStore.isLoading" class="flex items-center space-x-4">
              <div class="animate-pulse flex items-center space-x-2">
-               <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
-               <div class="w-20 h-4 bg-gray-200 rounded"></div>
+               <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+               <div class="w-20 h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
              </div>
            </div>
            
            <div v-else-if="isAuthenticated" class="flex items-center space-x-4">
-            <router-link to="/profile" class="flex items-center space-x-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
+            <router-link to="/profile" class="flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 transition-colors">
               <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                 <span class="text-white font-bold text-sm">
                   {{ user?.name?.charAt(0) || 'U' }}
                 </span>
               </div>
               <div class="hidden lg:block">
-                <p class="text-sm font-medium text-gray-900">{{ user?.name }}</p>
-                <p class="text-xs text-gray-500">Profile</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ user?.name }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Profile</p>
               </div>
             </router-link>
             <button
@@ -195,9 +200,13 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import DarkModeToggle from './DarkModeToggle.vue'
 
 export default {
   name: 'Navbar',
+  components: {
+    DarkModeToggle
+  },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()

@@ -14,8 +14,8 @@
           </span>
         </div>
         <div>
-          <h2 class="text-2xl font-bold text-gray-900">{{ user?.name }}</h2>
-          <p class="text-gray-600">{{ user?.email }}</p>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ user?.name }}</h2>
+          <p class="text-gray-600 dark:text-gray-400">{{ user?.email }}</p>
           <div class="flex items-center gap-2 mt-1">
             <span 
               v-if="user?.is_admin" 
@@ -29,48 +29,48 @@
             >
               User
             </span>
-            <span class="text-sm text-gray-500">• Member since {{ formatDate(user?.created_at) }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">• Member since {{ formatDate(user?.created_at) }}</span>
           </div>
         </div>
       </div>
       
       <!-- User stats -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="text-center p-4 bg-gray-50 rounded-lg">
+        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
           <div v-if="isLoading" class="animate-pulse">
-            <div class="h-8 bg-gray-200 rounded mb-2"></div>
-            <div class="h-4 bg-gray-200 rounded w-16 mx-auto"></div>
+            <div class="h-8 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 dark:bg-gray-600 rounded w-16 mx-auto"></div>
           </div>
           <div v-else>
-            <div class="text-2xl font-bold text-indigo-600">{{ userStats.postsCount }}</div>
-            <div class="text-sm text-gray-600">Posts</div>
+            <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ userStats.postsCount }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Posts</div>
           </div>
         </div>
-        <div class="text-center p-4 bg-gray-50 rounded-lg">
+        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
           <div v-if="isLoading" class="animate-pulse">
-            <div class="h-8 bg-gray-200 rounded mb-2"></div>
-            <div class="h-4 bg-gray-200 rounded w-20 mx-auto"></div>
+            <div class="h-8 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 dark:bg-gray-600 rounded w-20 mx-auto"></div>
           </div>
           <div v-else>
-            <div class="text-2xl font-bold text-purple-600">{{ userStats.commentsCount }}</div>
-            <div class="text-sm text-gray-600">Comments</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ userStats.commentsCount }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Comments</div>
           </div>
         </div>
-        <div class="text-center p-4 bg-gray-50 rounded-lg">
+        <div class="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
           <div v-if="isLoading" class="animate-pulse">
-            <div class="h-8 bg-gray-200 rounded mb-2"></div>
-            <div class="h-4 bg-gray-200 rounded w-24 mx-auto"></div>
+            <div class="h-8 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+            <div class="h-4 bg-gray-200 dark:bg-gray-600 rounded w-24 mx-auto"></div>
           </div>
           <div v-else>
-            <div class="text-2xl font-bold text-green-600">{{ userStats.totalCommentsReceived }}</div>
-            <div class="text-sm text-gray-600">Comments Received</div>
+            <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ userStats.totalCommentsReceived }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Comments Received</div>
           </div>
         </div>
       </div>
       
       <!-- Recent activity -->
       <div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
         <div v-if="isLoading" class="space-y-4">
           <div v-for="n in 3" :key="n" class="p-4 border border-gray-200 rounded-lg">
             <div class="animate-pulse">

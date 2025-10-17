@@ -14,11 +14,11 @@
     </div>
     
     <!-- Post content -->
-    <div v-else-if="post" class="bg-white rounded-lg shadow-md p-8 mb-8">
+    <div v-else-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-8">
       <div class="flex justify-between items-start mb-6">
         <div>
-          <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ post.title }}</h1>
-          <div class="flex items-center space-x-4 text-sm text-gray-500">
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ post.title }}</h1>
+          <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <span>By {{ post.user?.name || 'Anonymous' }}</span>
             <span>•</span>
             <span>{{ post.created_at_human }}</span>
@@ -44,13 +44,13 @@
       </div>
       
       <div class="prose max-w-none">
-        <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ post.content }}</p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{{ post.content }}</p>
       </div>
     </div>
     
     <!-- Comments section -->
-    <div v-if="post" class="bg-white rounded-lg shadow-md p-8">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    <div v-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         Comments ({{ comments.length }})
       </h2>
       

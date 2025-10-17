@@ -14,15 +14,15 @@
     </div>
     
     <!-- Edit form -->
-    <div v-else-if="post" class="bg-white rounded-lg shadow-md p-8">
+    <div v-else-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Edit Post</h1>
-        <p class="text-gray-600 mt-2">Update your post content</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Edit Post</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">Update your post content</p>
       </div>
       
       <form @submit.prevent="handleSubmit" class="space-y-6">
         <div>
-          <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Post Title
           </label>
           <input
@@ -30,13 +30,13 @@
             v-model="form.title"
             type="text"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            class="input-field"
             placeholder="Enter a compelling title for your post"
           />
         </div>
         
         <div>
-          <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Post Content
           </label>
           <textarea
@@ -44,7 +44,7 @@
             v-model="form.content"
             rows="12"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            class="textarea-field"
             placeholder="Write your post content here..."
           ></textarea>
         </div>

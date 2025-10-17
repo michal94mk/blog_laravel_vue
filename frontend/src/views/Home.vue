@@ -2,13 +2,13 @@
   <div class="home">
     <div class="mb-12 text-center">
       <h1 class="text-5xl font-bold gradient-text mb-6">Welcome to Laravel Blog</h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">Discover amazing stories, share your thoughts, and connect with a vibrant community of writers and readers.</p>
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Discover amazing stories, share your thoughts, and connect with a vibrant community of writers and readers.</p>
     </div>
     
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
       <div class="spinner mx-auto mb-4"></div>
-      <p class="text-gray-600">Loading posts...</p>
+      <p class="text-gray-600 dark:text-gray-400">Loading posts...</p>
     </div>
     
     <!-- Error state -->
@@ -34,12 +34,12 @@
               </span>
             </div>
             <div>
-              <p class="text-sm font-medium text-gray-900">{{ post.user?.name || 'Anonymous' }}</p>
-              <p class="text-xs text-gray-500">{{ post.created_at_human }}</p>
+              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ post.user?.name || 'Anonymous' }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ post.created_at_human }}</p>
             </div>
           </div>
           
-          <h2 class="text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer mb-3 line-clamp-2">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer mb-3 line-clamp-2">
             <router-link :to="`/posts/${post.id}`">
               {{ post.title }}
             </router-link>
@@ -48,14 +48,14 @@
         
         <!-- Post content -->
         <div class="flex-grow mb-4">
-          <p class="text-gray-700 line-clamp-4 leading-relaxed">
+          <p class="text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
             {{ post.content }}
           </p>
         </div>
         
         <!-- Post footer -->
-        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-          <div class="flex items-center space-x-2 text-sm text-gray-500">
+        <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
+          <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
@@ -64,7 +64,7 @@
           
           <router-link
             :to="`/posts/${post.id}`"
-            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center space-x-1 group"
+            class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium flex items-center space-x-1 group"
           >
             <span>Read more</span>
             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
