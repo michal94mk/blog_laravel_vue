@@ -37,7 +37,13 @@ class PostPolicy
      */
     public function update(?User $user, Post $post): bool
     {
-        return $user !== null && $user->id === $post->user_id; // Only post owner can update
+        // Admin can update any post
+        if ($user && $user->hasPermission('manage_posts')) {
+            return true;
+        }
+
+        // Post owner can update their own post
+        return $user !== null && $user->id === $post->user_id;
     }
 
     /**
@@ -45,7 +51,13 @@ class PostPolicy
      */
     public function delete(?User $user, Post $post): bool
     {
-        return $user !== null && $user->id === $post->user_id; // Only post owner can delete
+        // Admin can delete any post
+        if ($user && $user->hasPermission('manage_posts')) {
+            return true;
+        }
+
+        // Post owner can delete their own post
+        return $user !== null && $user->id === $post->user_id;
     }
 
     /**

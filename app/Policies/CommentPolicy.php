@@ -37,7 +37,13 @@ class CommentPolicy
      */
     public function update(?User $user, Comment $comment): bool
     {
-        return $user !== null && $user->id === $comment->user_id; // Only comment owner can update
+        // Admin can update any comment
+        if ($user && $user->hasPermission('manage_comments')) {
+            return true;
+        }
+
+        // Comment owner can update their own comment
+        return $user !== null && $user->id === $comment->user_id;
     }
 
     /**
@@ -45,15 +51,21 @@ class CommentPolicy
      */
     public function delete(?User $user, Comment $comment): bool
     {
-        // Comment owner or post owner can delete
+        // Admin can delete any comment
+        if ($user && $user->hasPermission('manage_comments')) {
+            return true;
+        }
+
+        // Comment owner can delete their own comment
         if ($user && $user->id === $comment->user_id) {
             return true;
         }
-        
+
+        // Post owner can delete comments on their posts
         if ($user && $comment->post && $user->id === $comment->post->user_id) {
             return true;
         }
-        
+
         return false;
     }
 
