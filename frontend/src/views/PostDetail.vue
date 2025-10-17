@@ -214,12 +214,20 @@ export default {
     const currentUser = computed(() => authStore.user)
     
     const canEditPost = computed(() => {
-      return isAuthenticated.value && post.value && currentUser.value?.id === post.value.user?.id
+      if (!isAuthenticated.value || !post.value) return false
+      // Admin can edit any post
+      if (currentUser.value?.is_admin) return true
+      // Post owner can edit their own post
+      return currentUser.value?.id === post.value.user?.id
     })
     
     const canEditComment = (comment) => {
       if (!isAuthenticated.value) return false
+      // Admin can edit any comment
+      if (currentUser.value?.is_admin) return true
+      // Comment owner can edit their own comment
       if (currentUser.value?.id === comment.user?.id) return true
+      // Post owner can edit comments on their post
       if (currentUser.value?.id === post.value?.user?.id) return true
       return false
     }
