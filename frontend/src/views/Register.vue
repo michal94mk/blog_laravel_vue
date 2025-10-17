@@ -76,8 +76,8 @@
             </div>
           </div>
 
-        <div v-if="error" class="rounded-md bg-red-50 p-4">
-          <div class="text-sm text-red-700">
+        <div v-if="error" class="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
+          <div class="text-sm text-red-700 dark:text-red-400">
             {{ error }}
           </div>
         </div>

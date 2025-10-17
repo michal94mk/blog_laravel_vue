@@ -36,8 +36,8 @@
         </div>
         
         <!-- Error display -->
-        <div v-if="error" class="bg-red-50 border border-red-200 rounded-md p-4">
-          <div class="text-red-700">
+        <div v-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
+          <div class="text-red-700 dark:text-red-400">
             {{ error }}
           </div>
         </div>
@@ -46,14 +46,14 @@
         <div class="flex justify-end space-x-4">
           <router-link
             to="/"
-            class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+            class="btn-secondary"
           >
             Cancel
           </router-link>
           <button
             type="submit"
             :disabled="loading"
-            class="px-6 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="loading" class="spinner mr-2"></span>
             {{ loading ? 'Creating Post...' : 'Create Post' }}

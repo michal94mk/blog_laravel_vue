@@ -103,12 +103,12 @@
     
     <!-- Mobile menu -->
     <div class="md:hidden" :class="{ 'block': mobileMenuOpen, 'hidden': !mobileMenuOpen }">
-      <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-gray-200">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
         <!-- Navigation links -->
         <router-link
           to="/"
-          class="text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          active-class="text-indigo-600 bg-indigo-50"
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+          active-class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
           @click="mobileMenuOpen = false"
         >
           Home
@@ -117,32 +117,32 @@
         <router-link
           v-if="isAuthenticated"
           to="/posts/create"
-          class="text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          active-class="text-indigo-600 bg-indigo-50"
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+          active-class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
           @click="mobileMenuOpen = false"
         >
           Create Post
         </router-link>
         
          <!-- Loading state for mobile -->
-         <div v-if="authStore.isLoading" class="pt-4 border-t border-gray-200">
+         <div v-if="authStore.isLoading" class="pt-4 border-t border-gray-200 dark:border-gray-700">
            <div class="px-3 py-2">
              <div class="animate-pulse flex items-center space-x-3">
-               <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+               <div class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
                <div class="flex-1">
-                 <div class="w-24 h-4 bg-gray-200 rounded mb-1"></div>
-                 <div class="w-32 h-3 bg-gray-200 rounded"></div>
+                 <div class="w-24 h-4 bg-gray-200 dark:bg-gray-600 rounded mb-1"></div>
+                 <div class="w-32 h-3 bg-gray-200 dark:bg-gray-600 rounded"></div>
                </div>
              </div>
            </div>
          </div>
          
          <!-- Guest menu -->
-         <div v-else-if="!isAuthenticated" class="pt-4 border-t border-gray-200">
+         <div v-else-if="!isAuthenticated" class="pt-4 border-t border-gray-200 dark:border-gray-700">
           <div class="px-3 space-y-2">
             <router-link
               to="/login"
-              class="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 block px-3 py-2 rounded-md text-base font-medium transition-colors"
               @click="mobileMenuOpen = false"
             >
               Login
@@ -158,7 +158,7 @@
         </div>
         
         <!-- Authenticated user menu -->
-        <div v-else class="pt-4 border-t border-gray-200">
+        <div v-else class="pt-4 border-t border-gray-200 dark:border-gray-700">
           <!-- User profile section -->
           <div class="px-3 py-2">
             <div class="flex items-center space-x-3">
@@ -168,8 +168,8 @@
                 </span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ user?.name }}</p>
-                <p class="text-sm text-gray-500 truncate">{{ user?.email }}</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ user?.name }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ user?.email }}</p>
               </div>
             </div>
           </div>
@@ -178,14 +178,14 @@
           <div class="px-3 space-y-1">
             <router-link
               to="/profile"
-              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               @click="mobileMenuOpen = false"
             >
               View Profile
             </router-link>
             <button
               @click="handleLogout"
-              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
             >
               Logout
             </button>
