@@ -3,12 +3,12 @@
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
       <div class="spinner mx-auto mb-4"></div>
-      <p class="text-gray-600">Loading post...</p>
+      <p class="text-gray-600 dark:text-gray-400">Loading post...</p>
     </div>
     
     <!-- Error state -->
-    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-      <div class="text-red-700">
+    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+      <div class="text-red-700 dark:text-red-400">
         {{ error }}
       </div>
     </div>
@@ -50,8 +50,8 @@
         </div>
         
         <!-- Error display -->
-        <div v-if="error" class="bg-red-50 border border-red-200 rounded-md p-4">
-          <div class="text-red-700">
+        <div v-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
+          <div class="text-red-700 dark:text-red-400">
             {{ error }}
           </div>
         </div>
@@ -60,14 +60,14 @@
         <div class="flex justify-end space-x-4">
           <router-link
             :to="`/posts/${post.id}`"
-            class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+            class="btn-secondary"
           >
             Cancel
           </router-link>
           <button
             type="submit"
             :disabled="updating"
-            class="px-6 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="updating" class="spinner mr-2"></span>
             {{ updating ? 'Updating Post...' : 'Update Post' }}
