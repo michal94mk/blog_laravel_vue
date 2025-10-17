@@ -19,10 +19,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        // Seed roles and permissions first
+        $this->call([
+            RolePermissionSeeder::class,
+        ]);
+
         // Seed posts and comments
         $this->call([
             PostSeeder::class,
             CommentSeeder::class,
         ]);
+
+        // Assign admin role to first user
+        $adminRole = \App\Models\Role::where('name', 'admin')->first();
+        $firstUser = \App\Models\User::first();
+        if ($adminRole && $firstUser) {
+            $firstUser->roles()->attach($adminRole);
+        }
     }
 }
