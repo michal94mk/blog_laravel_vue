@@ -19,14 +19,19 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        $posts = Post::with(['user', 'comments.user'])
+        $posts = Post::with(['user'])
+            ->withCount('comments')
             ->latest()
-            ->paginate(10);
+            ->paginate(9);
 
         return response()->json([
-            'success' => true,
-            'data' => PostResource::collection($posts),
-            'message' => 'Posts retrieved successfully'
+            'data' => PostResource::collection($posts->items()),
+            'current_page' => $posts->currentPage(),
+            'last_page' => $posts->lastPage(),
+            'per_page' => $posts->perPage(),
+            'total' => $posts->total(),
+            'from' => $posts->firstItem(),
+            'to' => $posts->lastItem(),
         ]);
     }
 

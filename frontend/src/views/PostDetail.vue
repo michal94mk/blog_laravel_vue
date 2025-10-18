@@ -3,22 +3,22 @@
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
       <div class="spinner mx-auto mb-4"></div>
-      <p class="text-gray-600">Loading post...</p>
+      <p class="text-gray-600 dark:text-gray-400">Loading post...</p>
     </div>
     
     <!-- Error state -->
-    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-      <div class="text-red-700">
+    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+      <div class="text-red-700 dark:text-red-400">
         {{ error }}
       </div>
     </div>
     
     <!-- Post content -->
-    <div v-else-if="post" class="bg-white rounded-lg shadow-md p-8 mb-8">
+    <div v-else-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-8">
       <div class="flex justify-between items-start mb-6">
         <div>
-          <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ post.title }}</h1>
-          <div class="flex items-center space-x-4 text-sm text-gray-500">
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ post.title }}</h1>
+          <div class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <span>By {{ post.user?.name || 'Anonymous' }}</span>
             <span>•</span>
             <span>{{ post.created_at_human }}</span>
@@ -44,13 +44,13 @@
       </div>
       
       <div class="prose max-w-none">
-        <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ post.content }}</p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{{ post.content }}</p>
       </div>
     </div>
     
     <!-- Comments section -->
-    <div v-if="post" class="bg-white rounded-lg shadow-md p-8">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    <div v-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         Comments ({{ comments.length }})
       </h2>
       
@@ -58,14 +58,14 @@
       <div v-if="isAuthenticated" class="mb-8">
         <form @submit.prevent="handleAddComment" class="space-y-4">
           <div>
-            <label for="comment" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Add a comment
             </label>
             <textarea
               id="comment"
               v-model="newComment"
               rows="4"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              class="textarea-field"
               placeholder="Share your thoughts..."
               required
             ></textarea>
@@ -84,9 +84,9 @@
       </div>
       
       <!-- Guest comment prompt -->
-      <div v-else class="mb-8 p-4 bg-gray-50 rounded-md">
-        <p class="text-gray-600 text-center">
-          <router-link to="/login" class="text-indigo-600 hover:text-indigo-800 font-medium">
+      <div v-else class="mb-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
+        <p class="text-gray-600 dark:text-gray-400 text-center">
+          <router-link to="/login" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
             Sign in
           </router-link>
           to add a comment
@@ -98,20 +98,20 @@
         <div
           v-for="comment in comments"
           :key="comment.id"
-          class="border-b border-gray-200 pb-6 last:border-b-0"
+          class="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0"
         >
           <div class="flex justify-between items-start mb-3">
             <div class="flex items-center space-x-3">
-              <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                <span class="text-sm font-medium text-gray-700">
+              <div class="h-8 w-8 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {{ comment.user?.name?.charAt(0) || '?' }}
                 </span>
               </div>
               <div>
-                <span class="text-sm font-medium text-gray-900">
+                <span class="text-sm font-medium text-gray-900 dark:text-white">
                   {{ comment.user?.name || 'Anonymous' }}
                 </span>
-                <span class="text-sm text-gray-500 ml-2">
+                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">
                   {{ comment.created_at_human }}
                 </span>
               </div>
@@ -136,7 +136,7 @@
           </div>
           
           <div class="ml-11">
-            <p v-if="!editingComment || editingComment.id !== comment.id" class="text-gray-700 whitespace-pre-wrap">
+            <p v-if="!editingComment || editingComment.id !== comment.id" class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
               {{ comment.comment }}
             </p>
             
@@ -145,7 +145,7 @@
               <textarea
                 v-model="editingComment.comment"
                 rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                class="textarea-field"
                 required
               ></textarea>
               <div class="flex justify-end space-x-2">
@@ -176,8 +176,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">No comments yet</h3>
-        <p class="text-gray-600">Be the first to share your thoughts!</p>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No comments yet</h3>
+        <p class="text-gray-600 dark:text-gray-400">Be the first to share your thoughts!</p>
       </div>
     </div>
   </div>

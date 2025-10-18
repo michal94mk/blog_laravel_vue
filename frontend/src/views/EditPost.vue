@@ -3,26 +3,26 @@
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-8">
       <div class="spinner mx-auto mb-4"></div>
-      <p class="text-gray-600">Loading post...</p>
+      <p class="text-gray-600 dark:text-gray-400">Loading post...</p>
     </div>
     
     <!-- Error state -->
-    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-      <div class="text-red-700">
+    <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+      <div class="text-red-700 dark:text-red-400">
         {{ error }}
       </div>
     </div>
     
     <!-- Edit form -->
-    <div v-else-if="post" class="bg-white rounded-lg shadow-md p-8">
+    <div v-else-if="post" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Edit Post</h1>
-        <p class="text-gray-600 mt-2">Update your post content</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Edit Post</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">Update your post content</p>
       </div>
       
       <form @submit.prevent="handleSubmit" class="space-y-6">
         <div>
-          <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Post Title
           </label>
           <input
@@ -30,13 +30,13 @@
             v-model="form.title"
             type="text"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            class="input-field"
             placeholder="Enter a compelling title for your post"
           />
         </div>
         
         <div>
-          <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Post Content
           </label>
           <textarea
@@ -44,14 +44,14 @@
             v-model="form.content"
             rows="12"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            class="textarea-field"
             placeholder="Write your post content here..."
           ></textarea>
         </div>
         
         <!-- Error display -->
-        <div v-if="error" class="bg-red-50 border border-red-200 rounded-md p-4">
-          <div class="text-red-700">
+        <div v-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
+          <div class="text-red-700 dark:text-red-400">
             {{ error }}
           </div>
         </div>
@@ -60,14 +60,14 @@
         <div class="flex justify-end space-x-4">
           <router-link
             :to="`/posts/${post.id}`"
-            class="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+            class="btn-secondary"
           >
             Cancel
           </router-link>
           <button
             type="submit"
             :disabled="updating"
-            class="px-6 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="updating" class="spinner mr-2"></span>
             {{ updating ? 'Updating Post...' : 'Update Post' }}

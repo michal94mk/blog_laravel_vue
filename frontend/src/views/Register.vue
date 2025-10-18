@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div class="text-center">
         <div class="mx-auto h-12 w-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mb-4">
@@ -8,9 +8,9 @@
         <h2 class="text-3xl font-bold gradient-text">
           Join our community
         </h2>
-        <p class="mt-2 text-sm text-gray-600">
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
           Already have an account?
-          <router-link to="/login" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+          <router-link to="/login" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
             Sign in here
           </router-link>
         </p>
@@ -20,7 +20,7 @@
         <form class="space-y-6" @submit.prevent="handleRegister">
           <div class="space-y-4">
             <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
               <input
                 id="name"
                 v-model="form.name"
@@ -34,7 +34,7 @@
             </div>
             
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
               <input
                 id="email"
                 v-model="form.email"
@@ -48,7 +48,7 @@
             </div>
             
             <div>
-              <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
               <input
                 id="password"
                 v-model="form.password"
@@ -62,7 +62,7 @@
             </div>
             
             <div>
-              <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+              <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Confirm Password</label>
               <input
                 id="password_confirmation"
                 v-model="form.password_confirmation"
@@ -76,8 +76,8 @@
             </div>
           </div>
 
-        <div v-if="error" class="rounded-md bg-red-50 p-4">
-          <div class="text-sm text-red-700">
+        <div v-if="error" class="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
+          <div class="text-sm text-red-700 dark:text-red-400">
             {{ error }}
           </div>
         </div>

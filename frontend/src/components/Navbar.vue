@@ -1,5 +1,5 @@
 <template>
-  <nav class="glass-effect sticky top-0 z-50 shadow-lg">
+  <nav class="glass-effect sticky top-0 z-50 shadow-lg bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
@@ -18,8 +18,8 @@
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
             <router-link
               to="/"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              active-class="border-indigo-500 text-gray-900"
+              class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              active-class="border-indigo-500 text-gray-900 dark:text-white"
             >
               Home
             </router-link>
@@ -27,8 +27,8 @@
             <router-link
               v-if="isAuthenticated"
               to="/posts/create"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-              active-class="border-indigo-500 text-gray-900"
+              class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              active-class="border-indigo-500 text-gray-900 dark:text-white"
             >
               Create Post
             </router-link>
@@ -37,24 +37,29 @@
         
          <!-- Desktop menu -->
          <div class="hidden md:flex items-center">
+           <!-- Dark mode toggle -->
+           <div class="mr-4">
+             <DarkModeToggle />
+           </div>
+           
            <!-- Loading state -->
            <div v-if="authStore.isLoading" class="flex items-center space-x-4">
              <div class="animate-pulse flex items-center space-x-2">
-               <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
-               <div class="w-20 h-4 bg-gray-200 rounded"></div>
+               <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+               <div class="w-20 h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
              </div>
            </div>
            
            <div v-else-if="isAuthenticated" class="flex items-center space-x-4">
-            <router-link to="/profile" class="flex items-center space-x-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
+            <router-link to="/profile" class="flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 transition-colors">
               <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                 <span class="text-white font-bold text-sm">
                   {{ user?.name?.charAt(0) || 'U' }}
                 </span>
               </div>
               <div class="hidden lg:block">
-                <p class="text-sm font-medium text-gray-900">{{ user?.name }}</p>
-                <p class="text-xs text-gray-500">Profile</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ user?.name }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Profile</p>
               </div>
             </router-link>
             <button
@@ -98,12 +103,12 @@
     
     <!-- Mobile menu -->
     <div class="md:hidden" :class="{ 'block': mobileMenuOpen, 'hidden': !mobileMenuOpen }">
-      <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-gray-200">
+      <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
         <!-- Navigation links -->
         <router-link
           to="/"
-          class="text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          active-class="text-indigo-600 bg-indigo-50"
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+          active-class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
           @click="mobileMenuOpen = false"
         >
           Home
@@ -112,32 +117,32 @@
         <router-link
           v-if="isAuthenticated"
           to="/posts/create"
-          class="text-gray-600 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          active-class="text-indigo-600 bg-indigo-50"
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+          active-class="text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
           @click="mobileMenuOpen = false"
         >
           Create Post
         </router-link>
         
          <!-- Loading state for mobile -->
-         <div v-if="authStore.isLoading" class="pt-4 border-t border-gray-200">
+         <div v-if="authStore.isLoading" class="pt-4 border-t border-gray-200 dark:border-gray-700">
            <div class="px-3 py-2">
              <div class="animate-pulse flex items-center space-x-3">
-               <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+               <div class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
                <div class="flex-1">
-                 <div class="w-24 h-4 bg-gray-200 rounded mb-1"></div>
-                 <div class="w-32 h-3 bg-gray-200 rounded"></div>
+                 <div class="w-24 h-4 bg-gray-200 dark:bg-gray-600 rounded mb-1"></div>
+                 <div class="w-32 h-3 bg-gray-200 dark:bg-gray-600 rounded"></div>
                </div>
              </div>
            </div>
          </div>
          
          <!-- Guest menu -->
-         <div v-else-if="!isAuthenticated" class="pt-4 border-t border-gray-200">
+         <div v-else-if="!isAuthenticated" class="pt-4 border-t border-gray-200 dark:border-gray-700">
           <div class="px-3 space-y-2">
             <router-link
               to="/login"
-              class="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 block px-3 py-2 rounded-md text-base font-medium transition-colors"
               @click="mobileMenuOpen = false"
             >
               Login
@@ -153,7 +158,7 @@
         </div>
         
         <!-- Authenticated user menu -->
-        <div v-else class="pt-4 border-t border-gray-200">
+        <div v-else class="pt-4 border-t border-gray-200 dark:border-gray-700">
           <!-- User profile section -->
           <div class="px-3 py-2">
             <div class="flex items-center space-x-3">
@@ -163,8 +168,8 @@
                 </span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ user?.name }}</p>
-                <p class="text-sm text-gray-500 truncate">{{ user?.email }}</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ user?.name }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ user?.email }}</p>
               </div>
             </div>
           </div>
@@ -173,14 +178,14 @@
           <div class="px-3 space-y-1">
             <router-link
               to="/profile"
-              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               @click="mobileMenuOpen = false"
             >
               View Profile
             </router-link>
             <button
               @click="handleLogout"
-              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+              class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
             >
               Logout
             </button>
@@ -195,9 +200,13 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import DarkModeToggle from './DarkModeToggle.vue'
 
 export default {
   name: 'Navbar',
+  components: {
+    DarkModeToggle
+  },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
